@@ -2,13 +2,6 @@ var http = require("http");
 var url = require('url');
 var handlers = require('./request-handler');
 var serverHelpers = require('./server-helpers');
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('chat','root','');
-
-var User = sequelize.define('Users', {
-  id: Sequelize.INTEGER,
-  username: Sequelize.STRING(20),
-});
 
 var port = 3000;
 var ip = "127.0.0.1";
