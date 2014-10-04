@@ -34,15 +34,14 @@ describe("Persistent Node Chat Server", function() {
     request({method: "POST",
              uri: "http://127.0.0.1:3000/classes/messages",
              json: {username: "Valjean",
-                    message: "In mercy's name, three days is all I need.",
+                    message: "In mercy's name three days is all I need.",
                     roomname: "Hello"}
             },
             function () {
               /* Now if we look in the database, we should find the
                * posted message there. */
-
-              var queryString = "SELECT * FROM messages";
-              var queryArgs = [];
+              var queryString = "select * from ??";
+              var queryArgs = ['Messages'];
               /* TODO: Change the above queryString & queryArgs to match your schema design
                * The exact query string and query args to use
                * here depend on the schema you design, so I'll leave
@@ -51,7 +50,7 @@ describe("Persistent Node Chat Server", function() {
                 function(err, results) {
                   // Should have one result:
                   expect(results.length).to.equal(1);
-                  expect(results[0].text).to.equal("In mercy's name, three days is all I need.");
+                  expect(results[0].text).to.equal("In mercy's name three days is all I need.");
                   /* TODO: You will need to change these tests if the
                    * column names in your schema are different from
                    * mine! */
@@ -63,7 +62,7 @@ describe("Persistent Node Chat Server", function() {
 
   it("Should output all messages from the DB", function(done) {
     // Let's insert a message into the db
-    var queryString = "";
+    var queryString = "insert into Messages (text, userid) values('hi',";
     var queryArgs = [];
     /* TODO - The exact query string and query args to use
      * here depend on the schema you design, so I'll leave

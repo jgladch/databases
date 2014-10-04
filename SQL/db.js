@@ -18,37 +18,42 @@ dbConnection.connect();
  * using this module.*/
 
 exports.findAllMessages = function(cb){
-  var queryString = 'SELECT * FROM messages;';
-  dbConnection.query(queryString, function(err, rows){
-    if (err) {console.log(err);}
-    cb(rows);
-  });
+  var queryString = "select * from Messages";
+
+  dbConnection.query(queryString, function(err, records) {
+    if(err) {console.log(error);}
+    cb(records);
+  })
 };
 
 exports.findUser = function(username, cb){
-  var queryString = 'SELECT * FROM users WHERE username = ?;';
+  var queryString = "select * from Users where username = ? ";
   var queryArgs = username;
-  dbConnection.query(queryString, queryArgs, function(err, rows){
-    if (err) {console.log(err)}
+  dbConnection.query(queryString, queryArgs, function(err, rows) {
+    if(err) {
+      console.log('findUSer',error);
+      return;
+    }
     cb(rows);
-  });
+  })
 };
 
 exports.saveUser = function(username, cb){
-  var queryString = "INSERT INTO users (username) VALUES (?);";
+  var queryString = "insert into Users (username) values (?)";
   var queryArgs = username;
-  dbConnection.query(queryString, queryArgs, function(err, rows){
-    if (err) {console.log(err);}
-  });
+  dbConnection.query(queryString, queryArgs, function(err, rows) {
+  })
   exports.findUser(username, cb);
 };
 
 exports.saveMessage = function(message, userid, roomname, cb){
-  console.log("Save Message: "+message+", "+userid+", "+roomname);
-  var queryString = "INSERT INTO messages (text, user_id, roomname) VALUES (??, ??, ??);";
+  //var queryString = "insert into Messages (text, user_id, roomname) values (??,??,??)";
+  var queryString = 'insert into Messages (text, user_id, roomname) values (' + dbConnection.escape(message) + ',' + dbConnection.escape(userid) + ',' + dbConnection.escape(roomname) + ')';
+  console.log(queryString);
+
   var queryArgs = [message, userid, roomname];
-  dbConnection.query(queryString, queryArgs, function(err, rows){
-    if (err) {console.log(err);}
+  dbConnection.query(queryString, function(err, rows) {
+    if(err) {'saveMessage',console.log(err);}
     cb(rows);
-  });
+  })
 };
