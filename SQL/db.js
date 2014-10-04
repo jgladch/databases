@@ -22,8 +22,10 @@ exports.findAllMessages = function(cb){
 
   dbConnection.query(queryString, function(err, records) {
     if(err) {console.log(error);}
-    cb(records);
-  })
+    console.log("Callback: ",cb);
+    console.log("Records: ",records);
+    cb(null, records);
+  });
 };
 
 exports.findUser = function(username, cb){
