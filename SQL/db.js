@@ -17,14 +17,14 @@ dbConnection.connect();
  * See https://github.com/felixge/node-mysql for more details about
  * using this module.*/
 
-exports.findAllMessages = function(cb){
+exports.findAllMessages = function(res, cb){
   var queryString = "select * from Messages";
 
   dbConnection.query(queryString, function(err, records) {
     if(err) {console.log(error);}
     console.log("Callback: ",cb);
     console.log("Records: ",records);
-    cb(null, records);
+    cb(res, records);
   });
 };
 
