@@ -49,12 +49,9 @@ exports.saveUser = function(username, cb){
 };
 
 exports.saveMessage = function(message, userid, roomname, cb){
-  //var queryString = "insert into Messages (text, user_id, roomname) values (??,??,??)";
-  var queryString = 'insert into Messages (text, user_id, roomname) values (' + dbConnection.escape(message) + ',' + dbConnection.escape(userid) + ',' + dbConnection.escape(roomname) + ')';
-  console.log(queryString);
-
+  var queryString = "INSERT into messages (text, user_id, roomname) values (?,?,?)";
   var queryArgs = [message, userid, roomname];
-  dbConnection.query(queryString, function(err, rows) {
+  dbConnection.query(queryString, queryArgs, function(err, rows) {
     if(err) {'saveMessage',console.log(err);}
     cb(rows);
   })
