@@ -6,8 +6,8 @@
     "bluebird": "^2.3.0",
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
-    "mysql": "^2.4.2",
-    "request": "^2.40.0"
+    "mysql": "^2.5.1",
+    "request": "^2.44.0"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -R dot SQL/spec/LiveSpec.js"

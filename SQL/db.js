@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-var mysql = require('mysql');
 /* If the node mysql module is not found on your system, you may
  * need to do an "sudo npm install -g mysql". */
 
@@ -7,7 +6,7 @@ var mysql = require('mysql');
  * database: "chat" specifies that we're using the database called
  * "chat", which we created by running schema.sql.*/
 var dbConnection = mysql.createConnection({
-  user: "",
+  user: "root",
   password: "",
   database: "chat"
 });
@@ -22,13 +21,42 @@ dbConnection.connect();
 
 
 exports.findAllMessages = function(cb){
+  var queryString = "select * from Messages";
+
+  dbConnection.query(queryString, function(err, records) {
+    if(err) {console.log(error);}
+    cb(records);
+  })
 };
 
 exports.findUser = function(username, cb){
+  var queryString = "select * from Users where username = ? ";
+  var queryArgs = username;
+  dbConnection.query(queryString, queryArgs, function(err, rows) {
+    if(err) {
+      console.log('findUSer',error);
+      return;
+    }
+    cb(rows);
+  })
 };
 
 exports.saveUser = function(username, cb){
+  var queryString = "insert into Users (username) values (?)";
+  var queryArgs = username;
+  dbConnection.query(queryString, queryArgs, function(err, rows) {
+  })
+  exports.findUser(username, cb);
 };
 
 exports.saveMessage = function(message, userid, roomname, cb){
+  //var queryString = "insert into Messages (text, user_id, roomname) values (??,??,??)";
+  var queryString = 'insert into Messages (text, user_id, roomname) values (' + dbConnection.escape(message) + ',' + dbConnection.escape(userid) + ',' + dbConnection.escape(roomname) + ')';
+  console.log(queryString);
+
+  var queryArgs = [message, userid, roomname];
+  dbConnection.query(queryString, function(err, rows) {
+    if(err) {'saveMessage',console.log(err);}
+    cb(rows);
+  })
 };
